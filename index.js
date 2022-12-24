@@ -22,6 +22,6 @@ const server = new GraphQLServer({
     typeDefs,
     resolvers
 });
-server.start(() => {
-    console.log('GraphQL Listening on port 4000');
+server.start({port: 5050}).then(result => {
+    console.log('GraphQL Listening on port 5050');
 });

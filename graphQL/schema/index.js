@@ -1,7 +1,7 @@
 /* building GraphQL Schema */
 module.exports = `
 type chatData {
-    _id: ID!
+    _id: String!
     orderid: String!
     userid: String!
     deliveryid: String!

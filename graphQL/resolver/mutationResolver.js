@@ -5,14 +5,18 @@ module.exports = {
     RootMutation: {
         createChatRoom: async(parent, args, ctx, info) => {
             try {
-                console.log('user create===============', args);
-                let query = { 'orderid': args.newUser.orderid };
                 const createUserDetails = await userModels.create(args.newUser);
-                console.log('user create===============', createUserDetails);
+                delete(createUserDetails.__v);
                 pubsub.publish('userTopic', {
-                    user: createUserDetails
+                    chatroom: createUserDetails
                 });
-                return createUserDetails;
+
+                if(createUserDetails) {
+                    return createUserDetails;
+                } else {
+                    return null;
+                }
+                
             } catch (error) {
                 return error;
             }
@@ -22,7 +26,6 @@ module.exports = {
             try {
                 let query = { 'orderid': args.orderid };
                 const createUserDetails = await userModels.deleteMany(query);
-                console.log('createUserDetails--------------------', createUserDetails);
                 if (createUserDetails == null) {
                     responseMSG.response = "No User found for this opertaion";
                     return responseMSG;
